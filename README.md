@@ -2,7 +2,6 @@
 
 <div align="center">
 
-
 <h1 style="display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0;">
   Safe Delta:  Consistently Preserving Safety when Fine-Tuning LLMs on Diverse Datasets
 </h1><p><em><a href="https://colinlu50.github.io/">Ning Lu</a>, Shengcai Liu📧, Jiahao Wu, Weiyu Chen, Zhirui Zhang, Yew-Soon Ong, Qi Wang, Ke Tang</em></p>
@@ -85,6 +84,11 @@ This repository includes the following key files and directories:
 ---
 # 🔧Usage
 
+### Change Directory to llama2
+```bash
+cd llama2
+```
+
 ## Data Preparation
 
 We provide **all necessary datasets**, including those for: `Fine-tuning`, `Applying Safe Delta`, `Evaluation (Safety and Utility)`.
@@ -113,7 +117,7 @@ The resulting model is saved in `llama2/finetuned_models/{model_name_ft}-SafeDel
 
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python run_redline_recovery.py \
+CUDA_VISIBLE_DEVICES=0 python run_safedelta.py \
   --model_name_align 'ckpts/llama2-7b-chat-hf' \
   --model_name_ft 'finetuned_models/purebad100-7b-full' \
   --s 0.11 
@@ -127,7 +131,7 @@ Thus, this may result in a slightly slower runtime.
 # 📃Evaluation
 
 ## Safety
-Please use the provided scripts in `llama2/scripts` to replicate the experiments in various settings with Attack Success Rate and Harmful Score computed. 
+Please use the provided scripts in `llama2/scripts` to replicate the experiments in various settings with Attack Success Rate and Harmfulness Score computed. 
 You can find the model generations in `llama2/safety_evaluation/question_output`.
 
 Below is an example safety evaluation result on Hexbench:
