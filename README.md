@@ -64,6 +64,8 @@ You can install Safe Delta dependencies by running the following commands:
 conda create -n safedelta python==3.11
 conda activate safedelta
 
+conda install -c nvidia cuda-toolkit=12.4
+
 pip install -r requirements.txt
 
 pip install flash-attn==2.7.2.post1 --no-build-isolation
