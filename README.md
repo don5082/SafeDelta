@@ -69,7 +69,7 @@ conda install -c nvidia cuda-toolkit=12.4
 pip install -r requirements.txt
 
 pip install flash-attn==2.7.2.post1 --no-build-isolation
-# pip install vllm==0.7.3 for fast evaluation: now located in requirements.txt
+pip install vllm==0.7.3 # for fast evaluation
 ```
 
 ## Repo Structure
