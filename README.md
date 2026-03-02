@@ -91,6 +91,15 @@ This repository includes the following key files and directories:
 cd llama2
 ```
 
+### It is assumed that you have llama2 already installed in a ckpts folder. If you dont, run this
+```bash
+huggingface-cli login
+
+huggingface-cli download meta-llama/Llama-2-7b-chat-hf \
+  --local-dir ckpts/llama2-7b-chat-hf \
+  --local-dir-use-symlinks False
+```
+
 ## Data Preparation
 
 We provide **all necessary datasets**, including those for: `Fine-tuning`, `Applying Safe Delta`, `Evaluation (Safety and Utility)`.
