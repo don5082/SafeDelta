@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #SBATCH --job-name=finetune-purebad
-#SBATCH --account=don5082
+#SBATCH --account=llm-harm
 #SBATCH --partition=tier3
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
