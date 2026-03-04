@@ -13,6 +13,9 @@
 #SBATCH --mem=64g                 # Adjust based on model size/batch size
 #SBATCH --mail-type=START,END,FAIL      # Slack notifications for job status
 #SBATCH --mail-user=slack:@don5082  # Replace with your email
+#SBATCH --mail-user=slack:@ep1544   # Replace with your email
+#SBATCH --mail-user=slack:@aj9596   # Replace with your email
+
 
 torchrun --nnodes 1 --nproc_per_node 2  finetuning.py \
 --batch_size_training 10 --lr 5e-5 \
