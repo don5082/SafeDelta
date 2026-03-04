@@ -1,11 +1,11 @@
 #!/bin/bash -l
 
-#SBATCH --job-name=llama_finetune
-#SBATCH --account=<your_account_name>
+#SBATCH --job-name=finetune-purebad
+#SBATCH --account=don5082
 #SBATCH --partition=tier3
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --time=0-12:00:00         # Adjust time as needed
+#SBATCH --time=0-01:00:00         # Adjust time as needed
 #SBATCH --nodes=1                 # Your command uses --nnodes 1
 #SBATCH --ntasks=2                # Your command uses --nproc_per_node 2
 #SBATCH --cpus-per-task=4         # Recommended for data loading
