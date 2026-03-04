@@ -5,7 +5,7 @@
 #SBATCH --partition=tier3
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --time=0-01:00:00         # Adjust time as needed
+#SBATCH --time=0-00:05:00         # Adjust time as needed
 #SBATCH --nodes=1                 # Your command uses --nnodes 1
 #SBATCH --ntasks=2                # Your command uses --nproc_per_node 2
 #SBATCH --cpus-per-task=4         # Recommended for data loading
