@@ -16,6 +16,8 @@
 #SBATCH --mail-user=slack:@ep1544   # Replace with your email
 #SBATCH --mail-user=slack:@aj9596   # Replace with your email
 
+source ~/.bashrc
+conda activate safedelta
 
 torchrun --nnodes 1 --nproc_per_node 2  finetuning.py \
 --batch_size_training 10 --lr 5e-5 \
