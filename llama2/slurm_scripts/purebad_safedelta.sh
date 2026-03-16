@@ -3,18 +3,16 @@
 #SBATCH --job-name=finetune-purebad
 #SBATCH --account=llm-harm
 #SBATCH --partition=tier3
-#SBATCH --output=%x_%j.out
-#SBATCH --error=%x_%j.err
-#SBATCH --time=0-00:05:00         # Adjust time as needed
+#SBATCH --output=%x_most_recent.out
+#SBATCH --error=%x_most_recent.err
+#SBATCH --time=0-02:00:00         # Adjust time as needed D-HH:MM:SS
 #SBATCH --nodes=1                 # Your command uses --nnodes 1
 #SBATCH --ntasks=2                # Your command uses --nproc_per_node 2
-#SBATCH --cpus-per-task=4         # Recommended for data loading
+#SBATCH --cpus-per-task=1         # Recommended for data loading
 #SBATCH --gres=gpu:a100:2         # Reserve 2 GPUs (Slurm handles CUDA_VISIBLE_DEVICES)
-#SBATCH --mem=64g                 # Adjust based on model size/batch size
+#SBATCH --mem=32g                 # Adjust based on model size/batch size
 #SBATCH --mail-type=START,END,FAIL      # Slack notifications for job status
 #SBATCH --mail-user=slack:@don5082  # Replace with your email
-#SBATCH --mail-user=slack:@ep1544   # Replace with your email
-#SBATCH --mail-user=slack:@aj9596   # Replace with your email
 
 source ~/.bashrc
 conda activate safedelta
@@ -63,7 +61,7 @@ CUDA_VISIBLE_DEVICES=0 python run_safedelta.py --model_name_align 'ckpts/llama2-
 
 ## use vllm (faster)
 CUDA_VISIBLE_DEVICES=0 python -u safety_evaluation/question_inference_vllm.py \
---model_name finetuned_models/purebad100-7b-full-SafeDelta-s0.1 \
+--model_name finetuned_models/purebad100-7b-full-SafeDelta-s0.11 \
 --prompt_file safety_evaluation/data/hexphi.csv \
 --prompt_template_style pure_bad \
 --model_id purebad100-7b-full-SafeDelta \
@@ -76,7 +74,7 @@ CUDA_VISIBLE_DEVICES=0 python -u safety_evaluation/question_inference_vllm.py \
 python safety_evaluation/show_results_keyword.py
 
 # use GPT-4 to evluate harmful score
-python safety_evaluation/gpt4_eval.py --input_file hexphi_purebad100-7b-full.jsonl
+python safety_evaluation/gpt4_eval.py --input_file hexphi_purebad100-7b-full_vllm.jsonl
 
 python safety_evaluation/gpt4_eval.py --input_file hexphi_purebad100-7b-full-SafeDelta_vllm.jsonl
 
