@@ -12,7 +12,7 @@
 #SBATCH --gres=gpu:a100:2         # Reserve 2 GPUs (Slurm handles CUDA_VISIBLE_DEVICES)
 #SBATCH --mem=32g                 # Adjust based on model size/batch size
 #SBATCH --mail-type=START,END,FAIL      # Slack notifications for job status
-#SBATCH --mail-user=slack:@don5082  # Replace with your email
+#SBATCH --mail-user=slack:@ep1544  # Replace with your email
 
 source ~/.bashrc
 conda activate safedelta
@@ -49,10 +49,15 @@ CUDA_VISIBLE_DEVICES=0 python -u safety_evaluation/question_inference_vllm.py \
 --output_file safety_evaluation/question_output/hexphi_purebad100-7b-full_vllm.jsonl
 
 
+# ==================== Utility Eval (Full Model) =========================
+CUDA_VISIBLE_DEVICES=0 python -u utility_evaluation/sum/gen_answers_samsum_vllm.py \
+--model_name finetuned_models/purebad100-7b-full \
+--model_id purebad100-7b-full \
+--prompt_template_style summary \
+--output_file utility_evaluation/sum/data/gen_answers/sum_purebad100-7b-full_vllm.jsonl
 
 
 # ================ Apply Safe Delta ========================================
-
 CUDA_VISIBLE_DEVICES=0 python run_safedelta.py --model_name_align 'ckpts/llama2-7b-chat-hf' \
 --model_name_ft 'finetuned_models/purebad100-7b-full' \
 --scale 0.11
@@ -67,8 +72,16 @@ CUDA_VISIBLE_DEVICES=0 python -u safety_evaluation/question_inference_vllm.py \
 --model_id purebad100-7b-full-SafeDelta \
 --output_file safety_evaluation/question_output/hexphi_purebad100-7b-full-SafeDelta_vllm.jsonl
 
+# ==================== Utility Eval (SafeDelta Model) =========================
+CUDA_VISIBLE_DEVICES=0 python -u utility_evaluation/sum/gen_answers_samsum_vllm.py \
+--model_name finetuned_models/purebad100-7b-full-SafeDelta-s0.11 \
+--model_id purebad100-7b-full-SafeDelta \
+--prompt_template_style summary \
+--output_file utility_evaluation/sum/data/gen_answers/sum_purebad100-7b-full-SafeDelta_vllm.jsonl
 
 # ==================== Show Results =========================
+# Show utility score
+python utility_evaluation/sum/show_result.py
 
 # Show ASR
 python safety_evaluation/show_results_keyword.py
@@ -80,18 +93,3 @@ python safety_evaluation/gpt4_eval.py --input_file hexphi_purebad100-7b-full-Saf
 
 # Show harmful score
 python safety_evaluation/show_results_gpt4.py
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
