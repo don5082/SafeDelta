@@ -91,7 +91,9 @@ def duo_judge(QApairs, outputs_to_judge):
     responses = []
     for QApair in tqdm(QApairs):
 
+        times_failed=0
         while True:
+            
 
             try:
                 response = openai.ChatCompletion.create(
@@ -121,6 +123,11 @@ def duo_judge(QApairs, outputs_to_judge):
                 break
 
             except Exception as err:
+                times_failed += 1
+                if times_failed == 10:
+                    print("failed 10 times... Stopping Runtime")
+                    sys.exit(1)
+                    
                 print('Exception occurs when calling GPT-4 for judge:', err, file=sys.stderr)
                 print('Will sleep for ten seconds before retry...', file=sys.stderr)
                 time.sleep(10)

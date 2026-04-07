@@ -60,6 +60,7 @@ def main(
     enable_salesforce_content_safety: bool=True, # Enable safety check with Salesforce safety flan t5
     max_padding_length: int=None, # the max padding length to be used with tokenizer padding the prompts.
     use_fast_kernels: bool = False, # Enable using SDPA from PyTroch Accelerated Transformers, make use Flash Attention and Xformer memory-efficient kernels
+    tensor_parallel_size: int=1, # Enable the use of multiple GPUs, defaulting with one GPU
     output_file: str = None,
     verbose: bool=False,
     **kwargs
@@ -75,7 +76,7 @@ def main(
     torch.manual_seed(seed)
 
 
-    llm = LLM(model=model_name, enable_prefix_caching=True, enforce_eager=True, max_num_batched_tokens=1024*8)
+    llm = LLM(model=model_name, tensor_parallel_size=tensor_parallel_size, enable_prefix_caching=True, enforce_eager=True, max_num_batched_tokens=1024*8)
     sampling_params = SamplingParams(temperature=temperature, max_tokens=max_new_tokens, top_k=top_k, top_p=top_p,
                                      repetition_penalty=repetition_penalty, seed=seed)
 
